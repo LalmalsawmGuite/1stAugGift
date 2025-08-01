@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Natalia Scarlet, Find Ozy Treasure</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #ffe6f0, #ffe0cc);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 2xl;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 600px;
+      text-align: center;
+    }
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 80%;
+    }
+    .hidden {
+      display: none;
+    }
+    .scratch-area {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="step1">
+    <h2>Welcome, Natalia Scarlet 🌹</h2>
+    <p>Can you find Ozy's hidden treasure?</p>
+    <input type="text" id="name" placeholder="What's your full name?">
+    <input type="number" id="age" placeholder="How old are you?">
+    <button onclick="checkStep1()">Continue</button>
+  </div>
+
+  <div class="card hidden" id="step2">
+    <h2>When is Ozy's Birthday? 🎂</h2>
+    <select id="birthday">
+      <option>Choose a date</option>
+      <option>June 13, 2002</option>
+      <option>May 20, 2001</option>
+      <option>July 7, 2002</option>
+    </select>
+    <button onclick="checkStep2()">Continue</button>
+  </div>
+
+  <div class="card hidden" id="step3">
+    <h2>How much do you love Ozy? 💖</h2>
+    <p>Choose a number from 1 to 100</p>
+    <input type="number" id="loveScale" max="100">
+    <div class="scratch-area" onclick="revealInfinity()">Hint: Try scratching your heart ❤️</div>
+    <div class="hidden" id="loveHint">What if the answer isn't just a number...?</div>
+    <button onclick="checkStep3()">Continue</button>
+  </div>
+
+  <div class="card hidden" id="step4">
+    <h2>What's Ozy's Favorite Color? 🎨</h2>
+    <input type="text" id="color" placeholder="Type any color...">
+    <button onclick="checkStep4()">Continue</button>
+  </div>
+
+  <div class="card hidden" id="step5">
+    <h2>Mini Activities 🎁</h2>
+    <p>1. Take a deep breath and smile 🌸</p>
+    <p>2. Think about our best moment together 💑</p>
+    <p>3. Say out loud: "Ozy, I love you!" 💬</p>
+    <p>4. Press the button below when you're done...</p>
+    <button onclick="showFinal()">I'm Done!</button>
+  </div>
+
+  <div class="card hidden" id="final">
+    <h2>You Found the Treasure! 💎</h2>
+    <p>Puii, I may not be the best boyfriend, but remember that I really love you and you are all I had.<br>
+    I will try my best to be the one you are proud of and one day we can make our dreams come true...<br>
+    I hope this little treasure hunt makes you happy, even though there is no actual treasure...<br>
+    <strong>You are my treasure and I love you.</strong></p>
+    <p>— Ozy 💖</p>
+  </div>
+
+  <script>
+    function checkStep1() {
+      const name = document.getElementById('name').value.toLowerCase();
+      const age = document.getElementById('age').value;
+      if (name.includes('natalia') && parseInt(age) > 0) {
+        showStep('step2');
+      } else {
+        alert('Hmm... try again 😅');
+      }
+    }
+
+    function checkStep2() {
+      const birthday = document.getElementById('birthday').value;
+      if (birthday === 'June 13, 2002') {
+        showStep('step3');
+      } else {
+        alert('Oops! Try again 🎂');
+      }
+    }
+
+    function revealInfinity() {
+      document.getElementById('loveHint').classList.remove('hidden');
+    }
+
+    function checkStep3() {
+      const love = document.getElementById('loveScale').value;
+      if (love.toLowerCase() === 'infinity' || love === '∞') {
+        showStep('step4');
+      } else {
+        alert('Hmm, are you sure that's enough? 🤭');
+      }
+    }
+
+    function checkStep4() {
+      const color = document.getElementById('color').value;
+      if (color.length > 0) {
+        showStep('step5');
+      } else {
+        alert("You gotta pick something! 🖌️");
+      }
+    }
+
+    function showStep(stepId) {
+      const steps = document.querySelectorAll('.card');
+      steps.forEach(step => step.classList.add('hidden'));
+      document.getElementById(stepId).classList.remove('hidden');
+    }
+
+    function showFinal() {
+      showStep('final');
+    }
+  </script>
+</body>
+</html>

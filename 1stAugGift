@@ -5,15 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Natalia Scarlet, Find Ozy Treasure</title>
   <style>
+    @keyframes floatHearts {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-800px); opacity: 0; }
+    }
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom right, #ffe6f0, #ffe0cc);
+      background: linear-gradient(to bottom right, #ffcce0, #fff0f5);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      overflow-x: hidden;
     }
     .card {
       background: white;
@@ -38,11 +43,43 @@
       font-size: 18px;
       color: #888;
     }
+    .typing {
+      border-right: 2px solid black;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(40, end) forwards, blink 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .heart {
+      position: absolute;
+      color: #ff69b4;
+      animation: floatHearts 6s linear infinite;
+    }
   </style>
 </head>
 <body>
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+  </audio>
+  <div class="hearts" id="hearts"></div>
   <div class="card" id="step1">
-    <h2>Welcome, Natalia Scarlet 🌹</h2>
+    <h2 class="typing">Welcome, Natalia Scarlet 🌹</h2>
     <p>Can you find Ozy's hidden treasure?</p>
     <input type="text" id="name" placeholder="What's your full name?">
     <input type="number" id="age" placeholder="How old are you?">
@@ -63,7 +100,7 @@
   <div class="card hidden" id="step3">
     <h2>How much do you love Ozy? 💖</h2>
     <p>Choose a number from 1 to 100</p>
-    <input type="number" id="loveScale" max="100">
+    <input type="text" id="loveScale" placeholder="Type here...">
     <div class="scratch-area" onclick="revealInfinity()">Hint: Try scratching your heart ❤️</div>
     <div class="hidden" id="loveHint">What if the answer isn't just a number...?</div>
     <button onclick="checkStep3()">Continue</button>
@@ -86,6 +123,7 @@
 
   <div class="card hidden" id="final">
     <h2>You Found the Treasure! 💎</h2>
+    <img src="https://i.imgur.com/7x4Xr1R.jpg" alt="Couple Photo" style="max-width: 100%; border-radius: 15px;">
     <p>Puii, I may not be the best boyfriend, but remember that I really love you and you are all I had.<br>
     I will try my best to be the one you are proud of and one day we can make our dreams come true...<br>
     I hope this little treasure hunt makes you happy, even though there is no actual treasure...<br>
@@ -94,6 +132,21 @@
   </div>
 
   <script>
+    function createHearts() {
+      const container = document.getElementById('hearts');
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = Math.random() * 100 + 'vh';
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        heart.innerHTML = '❤';
+        heart.style.animationDuration = (Math.random() * 5 + 3) + 's';
+        container.appendChild(heart);
+      }
+    }
+    createHearts();
+
     function checkStep1() {
       const name = document.getElementById('name').value.toLowerCase();
       const age = document.getElementById('age').value;
@@ -143,7 +196,24 @@
 
     function showFinal() {
       showStep('final');
+      triggerConfetti();
+    }
+
+    function triggerConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.position = 'fixed';
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.top = '-20px';
+        confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+        confetti.style.borderRadius = '50%';
+        document.body.appendChild(confetti);
+      }
     }
   </script>
 </body>
 </html>
+
